@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nhs_filter"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="Show only NHS Hospital"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/independent_filter"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="Show only Independent Hospitals"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/show_all_filter"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="Show all Hospitals"
+        app:showAsAction="never" />
+</menu>
