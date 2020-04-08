@@ -1,5 +1,6 @@
 package aditya.sensyne.hospitaluk
 
+import aditya.sensyne.hospitaluk.data.model.FilterBy
 import aditya.sensyne.hospitaluk.data.model.HospitalModel
 import aditya.sensyne.hospitaluk.utils.FilterMethodUtils
 import junit.framework.Assert
@@ -16,41 +17,42 @@ class FilterMethodTests {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
-
+    
 
     @Test
-    fun filterByTest() {
-        val list = getListOfFakesWithDistance().toMutableList()
-//        list.add(MyItemCardModel().apply { this.distance = " miles" }) //TODO This scenario is not handled
+    fun filterNHSOnly() {
+        val list = getListOfHospitals()
 
-        val method = FilterMethodUtils.Companion.javaClass.getDeclaredMethod("filterBy", ArrayList::class.java, Boolean::class.java)
-        method.isAccessible = true
+         val filteredList= FilterMethodUtils.filterBy(FilterBy.NHSHospital,list = list)
 
-        val sortedList = method.invoke(
-            FilterMethodUtils,
-            list, false) as? List<HospitalModel>
-
-        val floats = sortedList
-            ?.map { it.distance.takeWhile { it != ' ' } }
-            ?.map {
-                try {
-                    it.toFloat()
-                } catch (e: NumberFormatException) {
-                    null
-                }
-            }
-            ?.filterNotNull()
-
-        Assert.assertTrue(floats != null)
-        floats?.let { listOfFloats ->
-            for (i in listOfFloats.indices) {
-                try {
-                    Assert.assertTrue(listOfFloats[i] < listOfFloats[i + 1])
-
-                } catch (e: IndexOutOfBoundsException) {
-                    println("End")
-                }
-            }
+        Assert.assertTrue(filteredList != null)
+        filteredList.let {
+            Assert.assertTrue(it.size==3)
         }
     }
+    @Test
+    fun filterIndependentOnly() {
+        val list = getListOfHospitals()
+
+        val filteredList= FilterMethodUtils.filterBy(FilterBy.IndependentHospital,list = list)
+
+        Assert.assertTrue(filteredList != null)
+        filteredList.let {
+            Assert.assertTrue(it.size==6)
+        }
+    }
+    fun getListOfHospitals(): List<HospitalModel> {
+        val list = mutableListOf<HospitalModel>()
+        list.add(HospitalModel(Sector = "NHS"))
+        list.add(HospitalModel(Sector = "NHS"))
+        list.add(HospitalModel(Sector = "NHS"))
+        list.add(HospitalModel(Sector = "Independent"))
+        list.add(HospitalModel(Sector = "Independent"))
+        list.add(HospitalModel(Sector = "Independent"))
+        list.add(HospitalModel(Sector = "Independent"))
+        list.add(HospitalModel(Sector = "Independent"))
+        list.add(HospitalModel(Sector = "Independent"))
+        return list
+    }
+
 }
